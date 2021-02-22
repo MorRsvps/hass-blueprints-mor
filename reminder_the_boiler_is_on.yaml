@@ -8,19 +8,19 @@
 #
 
 blueprint:
-  name: Notification to Close a Window 
-  description: Notification to close windows if it is cold outside
+  name: התראה שהדוד דולק
+  description: התראה על דוד דולק מספר דקות
   domain: automation
   input: 
     contact_sensor: 
-      name: Contact Sensor
-      description: 'The window or door sensor that triggers the automation.'
+      name: בחירת מפסק
+      description: 'המפסק שעליו נרצה לקבל התראה'
       selector: 
         entity:
           domain: switch
     first_timer:
-      name: 'First timer'
-      description: 'The first notification timer (in minutes).'
+      name: 'טיימר ראשון'
+      description: 'זמן התראה לאחר מספר דקות.'
       default: 10
       selector: 
         number:
@@ -29,8 +29,8 @@ blueprint:
           max: 60
           mode: slider
     second_timer:
-      name: 'Second timer'
-      description: 'The second notification timer (in minutes).'
+      name: 'טיימר שני'
+      description: 'זמן התראה שני לאחר מספר דקות.'
       default: 15
       selector: 
         number:
