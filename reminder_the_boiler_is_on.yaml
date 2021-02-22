@@ -1,24 +1,23 @@
 # 
 # Home Assistant Automation Blueprint
 #
-# Sends two notifications to close a window or door after opening it, 
-# if the temperature outside is below a certain degree. 
+# Sends notifications to turn of the boiler after XX Minu', 
 #
 # Revision 2
-# Roozbeh Farahbod, Jan. 2021
+# Mor Briga, Jan. 2021
 #
 
 blueprint:
-  name: Notification to Close a Window 
-  description: Notification to close windows if it is cold outside
+  name: Notification to turn off the Boiler
+  description: Notification to turn off the Boiler
   domain: automation
   input: 
     contact_sensor: 
       name: Contact Sensor
-      description: 'The window or door sensor that triggers the automation.'
+      description: 'The switch that triggers the automation.'
       selector: 
         entity:
-          domain: binary_sensor
+          domain: switch
     first_timer:
       name: 'First timer'
       description: 'The first notification timer (in minutes).'
@@ -29,26 +28,7 @@ blueprint:
           step: 1
           max: 60
           mode: slider
-    second_timer:
-      name: 'Second timer'
-      description: 'The second notification timer (in minutes).'
-      default: 15
-      selector: 
-        number:
-          min: 1
-          step: 1
-          max: 60
-          mode: slider
-    temperature:
-      name: 'Temperature'
-      description: 'The outside temperature below which the notification should be sent.'
-      default: 20
-      selector: 
-        number:
-          min: 0
-          step: 1
-          max: 25
-          mode: slider
+  
     device_identifier:
       name: Device to notify
       description: >
@@ -69,26 +49,7 @@ trigger:
     hours: 0
     minutes: !input first_timer
     seconds: 0
-- platform: state
-  entity_id: !input contact_sensor
-  from: 'off'
-  to: 'on'
-  for:
-    hours: 0
-    minutes: !input second_timer
-    seconds: 0
 
-# Two conditions:
-# 1. The door or window should still be open. 
-# 2. The temperature reading must be below the set value. 
-condition:
-- condition: state
-  entity_id: !input contact_sensor
-  state: 'on'
-- condition: numeric_state
-  entity_id: weather.pihome
-  attribute: temperature
-  below: !input temperature
 
 # Send a notification to the mobile device. 
 action:
